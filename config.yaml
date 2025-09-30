@@ -1,0 +1,11 @@
+server:
+  port: "8080"
+
+database:
+  source: "postgresql://root:password@localhost:5432/wallet?sslmode=disable"
+
+redis:
+  addr: "localhost:6379"
+
+sentry:
+  dsn: "" # Default to empty, must be provided by environment in prod

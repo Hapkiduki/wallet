@@ -1,0 +1,115 @@
+basePath: /api/v1
+definitions:
+  fiber.Map:
+    additionalProperties: {}
+    type: object
+  internal_handler.CreateUserRequest:
+    properties:
+      dni:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_handler.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  internal_handler.RechargeRequest:
+    properties:
+      amount:
+        type: number
+      wallet_id:
+        type: string
+    type: object
+  internal_handler.UserResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      message:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample wallet API.
+  title: Wallet App API
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user and an associated empty wallet.
+      parameters:
+      - description: User to create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/internal_handler.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal_handler.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/internal_handler.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/internal_handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/internal_handler.ErrorResponse'
+      summary: Create a new user
+      tags:
+      - users
+  /wallets/recharge:
+    post:
+      consumes:
+      - application/json
+      description: Adds a specified amount to a wallet's balance.
+      parameters:
+      - description: Recharge details
+        in: body
+        name: wallet
+        required: true
+        schema:
+          $ref: '#/definitions/internal_handler.RechargeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/fiber.Map'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/fiber.Map'
+      summary: Recharge a wallet
+      tags:
+      - wallets
+swagger: "2.0"
